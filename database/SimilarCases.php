@@ -1,5 +1,4 @@
 <?php
-include_once './help_functions.php';
 
 class SimilarCases
 {

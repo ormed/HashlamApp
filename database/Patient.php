@@ -1,5 +1,4 @@
 <?php
-include_once 'C:\wamp\www\ADSS-Prototype\help_functions.php';
 
 class Patient {
 

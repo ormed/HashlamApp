@@ -1,28 +1,23 @@
-<?php require_once('./database/db_config.php'); ?>
+<?php require_once('database/Database.php'); ?>
 
 <?php
 
-// This is the API to possibility show the user list, and show a specific user by action.
+/*$db = new Database();
+$q = "Select * from 'Tusers'";
+$user_info = $db->createQuery($q);
+echo $user_info;*/
 
-function get_user_by_id($id)
+//method that clean the input from things we dont want
+//return clean data
+function cleanInput($data)
 {
-    $user_info = array();
-
-    // make a call in db.
-    switch ($id){
-        case 1:
-            $user_info = array("first_name" => "Marc", "last_name" => "Simon", "age" => 21); // let's say first_name, last_name, age
-            break;
-        case 2:
-            $user_info = array("first_name" => "Frederic", "last_name" => "Zannetie", "age" => 24);
-            break;
-        case 3:
-            $user_info = array("first_name" => "Laure", "last_name" => "Carbonnel", "age" => 45);
-            break;
-    }
-
-    return $user_info;
+    $data = trim($data);
+    $data = stripslashes($data);
+    $data = htmlspecialchars($data);
+    return $data;
 }
+
+// This is the API to possibility show the user list, and show a specific user by action.
 
 function get_user_list()
 {
@@ -31,16 +26,31 @@ function get_user_list()
     return $user_list;
 }
 
-$possible_url = array("get_user_list", "get_user");
+// NEW USER
+// $password = password_hash($pass, PASSWORD_BCRYPT);;
 
+function login()
+{
+    $db = new Database();
+    $_REQUEST['username'] = cleanInput($_REQUEST['username']);
+    $_REQUEST['password'] = cleanInput($_REQUEST['password']);
+    $q = "Select * from `Tusers` where username='{$_REQUEST['username']}' and password='{$_REQUEST['password']}'";
+    $user_info = $db->createQuery($q);
+    echo $user_info;
+}
+
+// array of the actions in api
+$possible_url = array("login", "get_user");
+
+// returns error if action not found
 $value = "An error has occurred";
 
-if (isset($_GET["action"]) && in_array($_GET["action"], $possible_url))
+if (isset($_REQUEST) && in_array($_REQUEST["action"], $possible_url))
 {
-    switch ($_GET["action"])
+    switch ($_REQUEST["action"])
     {
-        case "get_user_list":
-            $value = get_user_list();
+        case "login":
+            $value = login();
             break;
         case "get_user":
             if (isset($_GET["id"]))
@@ -48,9 +58,10 @@ if (isset($_GET["action"]) && in_array($_GET["action"], $possible_url))
             else
                 $value = "Missing argument";
             break;
+        
     }
 }
 
-exit(json_encode($value));
+exit($value);
 
 ?>

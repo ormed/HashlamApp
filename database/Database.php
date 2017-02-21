@@ -1,12 +1,11 @@
 <?php
-include_once './help_functions.php';
 
 class Database
 {
     // Connection info
-    private $_dsn = 'mysql:dbname=adss;host=127.0.0.1';
-    private $_username = 'root';
-    private $_password = '';
+    private $_dsn = 'mysql:dbname=u217473412_socia;host=mysql.hostinger.co.il';
+    private $_username = 'u217473412_socia';
+    private $_password = 'ofekot';
     protected $_query;
     protected $_dbh;
 
@@ -43,10 +42,5 @@ class Database
             array_push($result, $row);
         }
         return $result;
-    }
-
-    public function lastInsertId()
-    {
-        return $this->_dbh->lastInsertId();
     }
 }
