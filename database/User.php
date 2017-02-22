@@ -32,17 +32,17 @@ class User {
     /**
      * get user params from post
      */
-    public static function newUser($userId, $password, $title, $regId) {
+    public static function newUser($userId, $password, $title, $regId, $level) {
         $password = password_hash($password, PASSWORD_BCRYPT);;
-        return User::insertUser($userId, $password, $title, $regId);
+        return User::insertUser($userId, $password, $title, $regId, $level);
     }
 
     /**
      * update a new user to database
      */
-    public static function insertUser($userId, $password, $title, $regId) {
+    public static function insertUser($userId, $password, $title, $regId, $level) {
         $db = new Database();
-        $q = "INSERT INTO `Tusers` (`userId`, `password`, `title`, `regId`) VALUES ('{$userId}','{$password}', '{$title}', '{$regId}');";
+        $q = "INSERT INTO `Tusers` (`userId`, `password`, `title`, `regId`, `level`) VALUES ('{$userId}','{$password}', '{$title}', '{$regId}', '{$level}');";
         return $db->createQuery($q);
     }
 
@@ -54,7 +54,7 @@ class User {
      */
     public static function getUser($user) {
         $db = new Database();
-        $q = "SELECT userId, title FROM `Tusers` WHERE userId='{$user}'";
+        $q = "SELECT * FROM `Tusers` WHERE userId='{$user}'";
         $result = $db->createQuery($q);
         if (count($result) > 0) {
             return $result;

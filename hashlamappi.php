@@ -7,10 +7,10 @@ require_once('database/Attendance.php');
 
 <?php
 
-// NEW USER
-for($i=12; $i<=19; $i++) {
-    User::newUser($i, "1234", "1", "");
-}
+//// NEW USER
+//for($i=12; $i<=19; $i++) {
+//    User::newUser($i, "1234", "1", "");
+//}
 
 //method that clean the input from things we dont want
 //return clean data
